@@ -130,11 +130,17 @@ You should see:
 
 Open: **http://localhost:3000**
 
-You should see the Team Flags interface! 🎉
+**What you'll see:**
+- A status page showing "Docker Container Running! 🐳"
+- Green checkmark: Next.js Application is working
+- Yellow alerts: Firebase and MongoDB not configured yet
+
+**This is perfect for Week 2!** You're learning Docker, not database setup.
+The status page proves your development environment works correctly.
 
 **Common Issues:**
-- Port already in use? Run: `lsof -ti:3000 | xargs kill` (Mac/Linux)
-- MongoDB connection error? Check your `.env.local` credentials
+- Port already in use? The app will use 3001 automatically, check terminal output
+- Seeing errors? Check your `.env.local` exists (copied from .env.example)
 
 ### Step 5: Stop the Server
 

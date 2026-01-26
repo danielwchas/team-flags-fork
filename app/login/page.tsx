@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react';
 import { useRedirectIfAuthenticated } from '@/lib/auth/hooks';
 import { useAuth } from '@/lib/auth/AuthContext';
 import { Mail, Lock, AlertCircle, Loader2 } from 'lucide-react';
+import { useRouter } from 'next/navigation';
 import TeamFlagsMini from '@/app/components/TeamFlagsMini';
 
 const TAGLINES = [
@@ -16,6 +17,7 @@ const TAGLINES = [
 export default function LoginPage() {
   const { authenticate, resetPassword } = useAuth();
   const { loading: authLoading } = useRedirectIfAuthenticated();
+  const router = useRouter();
 
   const [showResetForm, setShowResetForm] = useState(false);
   const [email, setEmail] = useState('');
@@ -24,6 +26,18 @@ export default function LoginPage() {
   const [success, setSuccess] = useState('');
   const [loading, setLoading] = useState(false);
   const [stats, setStats] = useState<{ teams: number; students: number } | null>(null);
+
+  // Check if Firebase is configured, redirect to status page if not
+  useEffect(() => {
+    const firebaseConfigured = !!(
+      process.env.NEXT_PUBLIC_FIREBASE_API_KEY &&
+      process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID
+    );
+
+    if (!firebaseConfigured) {
+      router.push('/status');
+    }
+  }, [router]);
 
   // Fetch stats on mount
   useEffect(() => {

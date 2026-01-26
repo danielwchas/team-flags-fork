@@ -16,11 +16,17 @@ let auth: Auth | undefined;
 
 // Initialize immediately if on client-side
 if (typeof window !== 'undefined') {
-  try {
-    app = getApps().length === 0 ? initializeApp(firebaseConfig) : getApps()[0];
-    auth = getAuth(app);
-  } catch (error) {
-    console.error('Firebase initialization error:', error);
+  // Check if Firebase credentials are provided
+  if (firebaseConfig.apiKey && firebaseConfig.projectId) {
+    try {
+      app = getApps().length === 0 ? initializeApp(firebaseConfig) : getApps()[0];
+      auth = getAuth(app);
+    } catch (error) {
+      console.error('Firebase initialization error:', error);
+    }
+  } else {
+    console.log('ℹ️ Firebase credentials not configured. Authentication features disabled.');
+    console.log('📚 This is OK for Week 2! Focus on Docker concepts.');
   }
 }
 

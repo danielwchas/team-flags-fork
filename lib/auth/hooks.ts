@@ -10,7 +10,15 @@ export function useRequireAuth() {
 
   useEffect(() => {
     if (!loading && !user) {
-      router.push('/login');
+      // Check if Firebase is configured
+      const firebaseConfigured = !!(
+        process.env.NEXT_PUBLIC_FIREBASE_API_KEY &&
+        process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID
+      );
+
+      // Redirect to status page if Firebase isn't configured
+      // Otherwise redirect to login
+      router.push(firebaseConfigured ? '/login' : '/status');
     }
   }, [user, loading, router]);
 
